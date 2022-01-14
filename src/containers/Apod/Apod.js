@@ -2,8 +2,6 @@ import axios from "axios";
 
 import "./Apod.css";
 import ImageCard from "../../components/ImageCard/ImageCard";
-import Backdrop from "../../components/Backdrop/Backdrop";
-import PopUp from "../../components/PopUp/PopUp";
 import Spinner from "../../components/Spinner/Spinner";
 import { useEffect, useState } from "react";
 

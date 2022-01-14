@@ -1,16 +1,15 @@
 import "./ImageCard.css";
-import { useState } from "react";
 
 function ImageCard({ data }) {
 	const { title, date, url } = data;
 	// const {nominatedList,origin,handleNominate,handleRemove} = props
-	let movieIndex;
-	// if(nominatedList !== undefined){
-	//     movieIndex = nominatedList.findIndex(x => x.imdbID === imdbID)
-	// }
+	// let movieIndex;
+	// // if(nominatedList !== undefined){
+	// //     movieIndex = nominatedList.findIndex(x => x.imdbID === imdbID)
+	// // }
 
-	const [animateRemoval, setAnimateRemoval] = useState(false);
-	const [animateNomination, setAnimateNomination] = useState(false);
+	// const [animateRemoval, setAnimateRemoval] = useState(false);
+	// const [animateNomination, setAnimateNomination] = useState(false);
 
 	// const handleRemoveClicked = (id)=> (event)=>{
 
@@ -34,13 +33,7 @@ function ImageCard({ data }) {
 	// }
 
 	return (
-		<div
-			className={
-				animateRemoval || animateNomination
-					? "moveout movie-poster"
-					: "movie-poster"
-			}
-		>
+		<div>
 			<div className="poster-image">
 				<img alt={title} src={url} />
 			</div>
