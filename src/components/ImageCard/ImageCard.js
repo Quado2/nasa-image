@@ -33,18 +33,18 @@ function ImageCard({ data }) {
 	// }
 
 	return (
-		<div>
-			<div className="poster-image">
+		<div className="image-card">
+			<div className="image">
 				<img alt={title} src={url} />
 			</div>
 			<div className="poster-lower">
 				<div className="poster-info">
 					<h3>{title}</h3>
-					<h3>{date}</h3>
+					<h4>{date}</h4>
 				</div>
 				<div className="poster-control">
-					<button>like</button>
-					<button>View More</button>
+					<button className="">like</button>
+					<button className="neomorhic">View Details</button>
 				</div>
 			</div>
 		</div>

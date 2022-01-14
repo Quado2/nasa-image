@@ -1,48 +1,64 @@
-.movie-poster{
+.image-card{
     position: relative;
     width: 80%;
-    margin: 10px 20px 10px 0;
+    margin: 10px 0;
     background-color:  white;
     border-radius: 5px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
   
 }
 
-.movie-poster .poster-image{
+.image-card .image{
     width: 100%;
     height: 100%;
     overflow-y: hidden;
 }
 
-.movie-poster .poster-image img{
+.image-card .poster-image img{
     width: 100%;
 }
 
-.movie-poster .poster-lower{
-    width: 80%;
-    margin-left: 20px;
+.image-card .poster-lower{
+    width: 90%;
 
 }
 
-.movie-poster .poster-lower .poster-info h3{
-    color: gray;
+.image-card .poster-lower .poster-info h3{
     font-size: 13px;
     text-align: left;
-    padding: 4px
+    padding: 7px 4px;
+    font-weight: 400;
 }
-.movie-poster .poster-lower .poster-control{
+.image-card .poster-lower .poster-info h4{
+  color: gray;
+  font-size: 13px;
+  text-align: left;
+  padding: 7px 4px;
+  font-weight: 400;
+}
+.image-card .poster-lower .poster-control{
   display: flex;
   justify-content: space-around;
+  margin: 20px 0;
 }
 
-.movie-poster .poster-lower .poster-control button{
+.image-card .poster-lower .poster-control button{
     font-size: 13px;
-    padding: 5px 10px;
+    padding: 10px 10px;
     margin: 5px;
-    border: none;
+    border:none;
     border-radius: 2px;
+    color: rgb(174, 0, 255)
+}
+
+.neomorphic{
+  background: #e0e0e0;
+  box-shadow:  16px 12px 16px #bebebe,
+               -12px -15px 16px #ffffff;
 }
 
 
