@@ -1,0 +1,56 @@
+.apod{
+  width: 100%;
+  min-height: 100vh;
+  background-color: rgb(240, 240, 240);
+}
+
+.apod header h1{
+  padding: 30px 15px;
+  font-weight: 400;
+}
+
+main{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+} 
+
+main .apod-landing{
+  width: 95%;
+  background-color: white;
+  border-radius: 5px;
+  overflow: hidden;
+
+}
+
+main .apod-landing .apod-description{
+  width: 90%;
+  margin: 20px auto;
+}
+
+main .apod-landing h4{
+  text-align: left;
+  margin: 10px 0;
+}
+
+main .apod-landing .apod-date h4{
+  font-weight: 300;
+
+}
+
+main .apod-landing .apod-explanation p{
+  margin-top: 20px;
+  font-weight: 300;
+  text-align: justify;
+}
+
+main .other-days{
+  margin: 20px auto;
+}
+main .other-days .cards-wrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

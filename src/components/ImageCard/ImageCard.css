@@ -1,0 +1,69 @@
+.movie-poster{
+    position: relative;
+    width: 80%;
+    margin: 10px 20px 10px 0;
+    background-color:  white;
+    border-radius: 5px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  
+}
+
+.movie-poster .poster-image{
+    width: 100%;
+    height: 100%;
+    overflow-y: hidden;
+}
+
+.movie-poster .poster-image img{
+    width: 100%;
+}
+
+.movie-poster .poster-lower{
+    width: 80%;
+    margin-left: 20px;
+
+}
+
+.movie-poster .poster-lower .poster-info h3{
+    color: gray;
+    font-size: 13px;
+    text-align: left;
+    padding: 4px
+}
+.movie-poster .poster-lower .poster-control{
+  display: flex;
+  justify-content: space-around;
+}
+
+.movie-poster .poster-lower .poster-control button{
+    font-size: 13px;
+    padding: 5px 10px;
+    margin: 5px;
+    border: none;
+    border-radius: 2px;
+}
+
+
+
+.moveout{
+    animation: remove .7s cubic-bezier(0.075, 0.82, 0.165, 1)
+  }
+
+
+  @keyframes remove{
+    0%{
+      transform: scale(1);
+    }
+    20%{
+        opacity: 1
+    }
+    100%{
+      transform: scale(0.3);
+      opacity: 0;
+    }
+  }
+
+ 
+
