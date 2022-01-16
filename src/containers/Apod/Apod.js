@@ -1,64 +1,64 @@
-import axios from "axios";
 
 import "./Apod.css";
 import ImageCard from "../../components/ImageCard/ImageCard";
 import Spinner from "../../components/Spinner/Spinner";
-import { useEffect, useState, useRef, useMemo,  } from "react";
-import {formatDate} from '../../utils'
-
-
+import { useEffect, useState, useRef, useMemo } from "react";
+import { prepareDate, fetchData} from "../../utils";
 
 function Apod() {
-	const url =
-		"https://api.nasa.gov/planetary/apod?api_key=NKjkCXMHHhCg3HcoUPe36Upvw9RVKcFB2JudVHeq";
 
+
+	const interval = 5;
 	const [imageData, setImageData] = useState([]);
 	const [loadingPage, setLoadingPage] = useState(true);
 	const [latestImage, setLatetestImage] = useState();
-  const [currentDate, setCurrentDate] = useState('')
-  const [dayIntervals, setDayIntervals] = useState(5);
+	const [dayIntervals, setDayIntervals] = useState(interval);
 
 	const loadMoreRef = useRef();
+
+
 
 	useEffect(() => {
 		//fetch nominated list from local storage if it exists
 		let likedImages = window.localStorage.getItem("likedImages");
-		fetchData();
-		async function fetchData() {
-      const today = new Date()
-      const todayTime = today.getTime()
-      const fiveDaysAgo = today.setDate(todayTime - (dayIntervals*24*60*60*1000))
-      const correctFormat = formatDate(fiveDaysAgo);
 
-
-			const apob = await axios(url+"&start_date="+correctFormat);
-			if (apob && apob.data) {
-				const allImages = apob.data.reverse();
-				const latestImage = allImages.shift();
-				setLatetestImage(latestImage);
-				setImageData(allImages);
-				setLoadingPage(false);
-			}
+		processData();
+		async function processData() {
+			const correctFormat = prepareDate(interval);
+			const { latestImage, otherImages } = await fetchData(correctFormat);
+			setLatetestImage(latestImage);
+			setImageData(otherImages);
+			setLoadingPage(false);
 		}
+
 		if (likedImages !== null) {
 			likedImages = JSON.parse(likedImages);
 		}
 	}, []);
-  
 
+	const options = useMemo(
+		() => ({
+			root: null,
+			rootMargin: "0px 0px 10px 0px",
+			threshold: .01,
+		}),
+		[]
+	);
 
-  const options = useMemo(() =>({
-    root: null,
-    rootMargin: "0px 0px 10px 0px",
-    threshold: 1,
-  }),[]);
-  
 	useEffect(() => {
 		const observer = new IntersectionObserver(([entry]) => {
-       if(entry.isIntersecting){
-         
-        console.log("I'm now visible");
-       }
+			if (entry.isIntersecting) {
+        console.log("we started fetching")
+				
+       // processData();
+       // async function processData(){
+          //const correctFormat = prepareDate(dayIntervals + dayIntervals);
+          //const { otherImages } = await fetchData(correctFormat);
+          // setImageData([otherImages])
+          // console.log("We finished fetching: ", imageData)
+
+       // }
+			}
 		}, options);
 
 		const loadMoreCurrent = loadMoreRef.current;
@@ -67,7 +67,7 @@ function Apod() {
 		return () => {
 			loadMoreCurrent && observer.unobserve(loadMoreCurrent);
 		};
-	}, [options]);
+	}, [options, dayIntervals,imageData]);
 
 	// Obtaint the latest image here
 
@@ -106,9 +106,10 @@ function Apod() {
 							<h2>Other days</h2>
 						</div>
 						<div className="cards-wrapper">
-							{imageData.map((data) => {
-								return <ImageCard key={data.url} data={data} />;
-							})}
+							{imageData &&
+								imageData.map((data) => {
+									return <ImageCard key={data.url} data={data} />;
+								})}
 						</div>
 					</div>
 					<div ref={loadMoreRef}>
