@@ -3,39 +3,78 @@ import axios from "axios";
 import "./Apod.css";
 import ImageCard from "../../components/ImageCard/ImageCard";
 import Spinner from "../../components/Spinner/Spinner";
-import { useEffect, useState,useRef } from "react";
+import { useEffect, useState, useRef, useMemo,  } from "react";
+import {formatDate} from '../../utils'
+
+
 
 function Apod() {
 	const url =
-		"https://api.nasa.gov/planetary/apod?api_key=NKjkCXMHHhCg3HcoUPe36Upvw9RVKcFB2JudVHeq&start_date=2022-01-01";
+		"https://api.nasa.gov/planetary/apod?api_key=NKjkCXMHHhCg3HcoUPe36Upvw9RVKcFB2JudVHeq";
 
 	const [imageData, setImageData] = useState([]);
 	const [loadingPage, setLoadingPage] = useState(true);
-  const loadMoreRef = useRef()
+	const [latestImage, setLatetestImage] = useState();
+  const [currentDate, setCurrentDate] = useState('')
+  const [dayIntervals, setDayIntervals] = useState(5);
+
+	const loadMoreRef = useRef();
 
 	useEffect(() => {
 		//fetch nominated list from local storage if it exists
 		let likedImages = window.localStorage.getItem("likedImages");
 		fetchData();
 		async function fetchData() {
-			const apob = await axios(url);
-			apob && setImageData(apob.data.reverse);
-			setLoadingPage(false);
+      const today = new Date()
+      const todayTime = today.getTime()
+      const fiveDaysAgo = today.setDate(todayTime - (dayIntervals*24*60*60*1000))
+      const correctFormat = formatDate(fiveDaysAgo);
+
+
+			const apob = await axios(url+"&start_date="+correctFormat);
+			if (apob && apob.data) {
+				const allImages = apob.data.reverse();
+				const latestImage = allImages.shift();
+				setLatetestImage(latestImage);
+				setImageData(allImages);
+				setLoadingPage(false);
+			}
 		}
 		if (likedImages !== null) {
 			likedImages = JSON.parse(likedImages);
 		}
 	}, []);
+  
+
+
+  const options = useMemo(() =>({
+    root: null,
+    rootMargin: "0px 0px 10px 0px",
+    threshold: 1,
+  }),[]);
+  
+	useEffect(() => {
+		const observer = new IntersectionObserver(([entry]) => {
+       if(entry.isIntersecting){
+         
+        console.log("I'm now visible");
+       }
+		}, options);
+
+		const loadMoreCurrent = loadMoreRef.current;
+		loadMoreCurrent && observer.observe(loadMoreCurrent);
+
+		return () => {
+			loadMoreCurrent && observer.unobserve(loadMoreCurrent);
+		};
+	}, [options]);
 
 	// Obtaint the latest image here
-	const latestImage = imageData[imageData.length - 1];
+
 	const latestImageTitle = latestImage && latestImage.title;
 	const latestImageDate = latestImage && latestImage.date;
 	const latestImageUrl = latestImage && latestImage.url;
 	const latestImageExplanation = latestImage && latestImage.explanation;
-
-	const newData = [...imageData];
-	newData.pop();
 
 	return (
 		<div className="apod">
@@ -67,13 +106,13 @@ function Apod() {
 							<h2>Other days</h2>
 						</div>
 						<div className="cards-wrapper">
-							{newData.map((data) => {
+							{imageData.map((data) => {
 								return <ImageCard key={data.url} data={data} />;
 							})}
 						</div>
 					</div>
-					<div  ref={loadMoreRef}>
-						<Spinner message="loading more ..." color='green'/>
+					<div ref={loadMoreRef}>
+						<Spinner message="loading more ..." color="green" />
 					</div>
 				</main>
 			)}
